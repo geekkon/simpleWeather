@@ -14,6 +14,7 @@
 		32E357A91B546DFD00A9CDDD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32E357A81B546DFD00A9CDDD /* Images.xcassets */; };
 		32E357AC1B546DFD00A9CDDD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 32E357AA1B546DFD00A9CDDD /* LaunchScreen.xib */; };
 		32E357B81B546DFD00A9CDDD /* SimpleWeatherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357B71B546DFD00A9CDDD /* SimpleWeatherTests.m */; };
+		32E357C21B546E2400A9CDDD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32E357C11B546E2400A9CDDD /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		32E357B11B546DFD00A9CDDD /* SimpleWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		32E357B61B546DFD00A9CDDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32E357B71B546DFD00A9CDDD /* SimpleWeatherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleWeatherTests.m; sourceTree = "<group>"; };
+		32E357C11B546E2400A9CDDD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32E357C21B546E2400A9CDDD /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		32E3578F1B546DFD00A9CDDD = {
 			isa = PBXGroup;
 			children = (
+				32E357C11B546E2400A9CDDD /* CoreData.framework */,
 				32E3579A1B546DFD00A9CDDD /* SimpleWeather */,
 				32E357B41B546DFD00A9CDDD /* SimpleWeatherTests */,
 				32E357991B546DFD00A9CDDD /* Products */,
@@ -163,6 +167,7 @@
 		32E357901B546DFD00A9CDDD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = SW;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = "Dmitriy Baklanov";
 				TargetAttributes = {
