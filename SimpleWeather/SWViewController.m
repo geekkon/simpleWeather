@@ -1,22 +1,26 @@
 //
-//  ViewController.m
+//  SWViewController.m
 //  SimpleWeather
 //
 //  Created by Dim on 14.07.15.
 //  Copyright (c) 2015 Dmitriy Baklanov. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "SWViewController.h"
+#import "SWDataManager.h"
 
-@interface ViewController ()
+@interface SWViewController ()
 
 @end
 
-@implementation ViewController
+@implementation SWViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view.
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
