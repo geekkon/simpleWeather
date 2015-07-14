@@ -2,7 +2,7 @@
 //  SWCity.h
 //  SimpleWeather
 //
-//  Created by Dim on 14.07.15.
+//  Created by Dim on 15.07.15.
 //  Copyright (c) 2015 Dmitriy Baklanov. All rights reserved.
 //
 
@@ -13,11 +13,11 @@
 
 @interface SWCity : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * cityID;
 @property (nonatomic, retain) NSString * country;
-@property (nonatomic) NSUInteger cityID;
-@property (nonatomic) float lon;
-@property (nonatomic) float lat;
+@property (nonatomic, retain) NSNumber * lat;
+@property (nonatomic, retain) NSNumber * lon;
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) SWWeather *weather;
 
 @end

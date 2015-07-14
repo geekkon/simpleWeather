@@ -9,6 +9,7 @@
 #import "SWViewController.h"
 #import "SWDataManager.h"
 
+
 @interface SWViewController ()
 
 @end
@@ -19,7 +20,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+//    [[SWDataManager sharedManager] fetchWeatherWithCityID:0
+//                                          completionBlock:^(BOOL successful, SWWeather *weather, NSError *error) {
+//                                              
+//                                              NSLog(@"IN CONTROLLER");
+//                                              
+//                                          }];
     
+    [[SWDataManager sharedManager] fetchWeatherWithCityID:0
+                                          completionBlock:nil];
     
 }
 

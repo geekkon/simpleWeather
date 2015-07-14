@@ -2,7 +2,7 @@
 //  SWWeather.m
 //  SimpleWeather
 //
-//  Created by Dim on 14.07.15.
+//  Created by Dim on 15.07.15.
 //  Copyright (c) 2015 Dmitriy Baklanov. All rights reserved.
 //
 
@@ -12,12 +12,12 @@
 
 @implementation SWWeather
 
-@dynamic updateTime;
 @dynamic conditionID;
-@dynamic main;
-@dynamic info;
 @dynamic icon;
+@dynamic info;
+@dynamic main;
 @dynamic temp;
+@dynamic updateTime;
 @dynamic city;
 
 @end

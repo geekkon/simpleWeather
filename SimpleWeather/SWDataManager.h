@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^CompletionBlock)(BOOL successful,  id oblect, NSError *error);
+
 @interface SWDataManager : NSObject
 
++ (SWDataManager *)sharedManager;
+
+- (void)fetchWeatherWithCityID:(NSUInteger)cityID
+               completionBlock:(CompletionBlock)completionBlock;
 @end

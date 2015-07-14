@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32D079DE1B55A6C70004958B /* SWJSONParsedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */; };
+		32D079E11B55AA0F0004958B /* SWCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079E01B55AA0F0004958B /* SWCity.m */; };
+		32D079E41B55AA100004958B /* SWWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079E31B55AA100004958B /* SWWeather.m */; };
 		32E3579E1B546DFD00A9CDDD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E3579D1B546DFD00A9CDDD /* main.m */; };
 		32E357A11B546DFD00A9CDDD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357A01B546DFD00A9CDDD /* AppDelegate.m */; };
 		32E357A71B546DFD00A9CDDD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32E357A51B546DFD00A9CDDD /* Main.storyboard */; };
@@ -15,8 +18,6 @@
 		32E357B81B546DFD00A9CDDD /* SimpleWeatherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357B71B546DFD00A9CDDD /* SimpleWeatherTests.m */; };
 		32E357C21B546E2400A9CDDD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32E357C11B546E2400A9CDDD /* CoreData.framework */; };
 		32E357C91B546EDF00A9CDDD /* SimpleWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 32E357C71B546EDF00A9CDDD /* SimpleWeather.xcdatamodeld */; };
-		32E357DE1B54722000A9CDDD /* SWWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357DD1B54722000A9CDDD /* SWWeather.m */; };
-		32E357E11B54722100A9CDDD /* SWCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357E01B54722100A9CDDD /* SWCity.m */; };
 		32E357E41B5472BC00A9CDDD /* SWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357E31B5472BC00A9CDDD /* SWViewController.m */; };
 		32E357E81B54733D00A9CDDD /* SWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357E71B54733D00A9CDDD /* SWDataManager.m */; };
 		32E357EB1B54737F00A9CDDD /* SWRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357EA1B54737F00A9CDDD /* SWRequestManager.m */; };
@@ -34,6 +35,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		32D079DC1B55A6C70004958B /* SWJSONParsedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWJSONParsedObject.h; sourceTree = "<group>"; };
+		32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWJSONParsedObject.m; sourceTree = "<group>"; };
+		32D079DF1B55AA0F0004958B /* SWCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCity.h; sourceTree = "<group>"; };
+		32D079E01B55AA0F0004958B /* SWCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCity.m; sourceTree = "<group>"; };
+		32D079E21B55AA100004958B /* SWWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWWeather.h; sourceTree = "<group>"; };
+		32D079E31B55AA100004958B /* SWWeather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWWeather.m; sourceTree = "<group>"; };
 		32E357981B546DFD00A9CDDD /* SimpleWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32E3579C1B546DFD00A9CDDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		32E3579D1B546DFD00A9CDDD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -47,10 +54,6 @@
 		32E357B71B546DFD00A9CDDD /* SimpleWeatherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleWeatherTests.m; sourceTree = "<group>"; };
 		32E357C11B546E2400A9CDDD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		32E357C81B546EDF00A9CDDD /* SimpleWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SimpleWeather.xcdatamodel; sourceTree = "<group>"; };
-		32E357DC1B54722000A9CDDD /* SWWeather.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWWeather.h; sourceTree = "<group>"; };
-		32E357DD1B54722000A9CDDD /* SWWeather.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWWeather.m; sourceTree = "<group>"; };
-		32E357DF1B54722100A9CDDD /* SWCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCity.h; sourceTree = "<group>"; };
-		32E357E01B54722100A9CDDD /* SWCity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWCity.m; sourceTree = "<group>"; };
 		32E357E21B5472BC00A9CDDD /* SWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWViewController.h; sourceTree = "<group>"; };
 		32E357E31B5472BC00A9CDDD /* SWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWViewController.m; sourceTree = "<group>"; };
 		32E357E61B54733D00A9CDDD /* SWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWDataManager.h; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 				32E357E71B54733D00A9CDDD /* SWDataManager.m */,
 				32E357E91B54737F00A9CDDD /* SWRequestManager.h */,
 				32E357EA1B54737F00A9CDDD /* SWRequestManager.m */,
+				32D079DC1B55A6C70004958B /* SWJSONParsedObject.h */,
+				32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */,
 				32E357EC1B5473EA00A9CDDD /* SWJSONParser.h */,
 				32E357ED1B5473EA00A9CDDD /* SWJSONParser.m */,
 			);
@@ -175,10 +180,10 @@
 		32E357E51B54730300A9CDDD /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				32E357DF1B54722100A9CDDD /* SWCity.h */,
-				32E357E01B54722100A9CDDD /* SWCity.m */,
-				32E357DC1B54722000A9CDDD /* SWWeather.h */,
-				32E357DD1B54722000A9CDDD /* SWWeather.m */,
+				32D079DF1B55AA0F0004958B /* SWCity.h */,
+				32D079E01B55AA0F0004958B /* SWCity.m */,
+				32D079E21B55AA100004958B /* SWWeather.h */,
+				32D079E31B55AA100004958B /* SWWeather.m */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -285,12 +290,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				32E357EE1B5473EA00A9CDDD /* SWJSONParser.m in Sources */,
+				32D079DE1B55A6C70004958B /* SWJSONParsedObject.m in Sources */,
+				32D079E41B55AA100004958B /* SWWeather.m in Sources */,
 				32E357E41B5472BC00A9CDDD /* SWViewController.m in Sources */,
-				32E357E11B54722100A9CDDD /* SWCity.m in Sources */,
-				32E357DE1B54722000A9CDDD /* SWWeather.m in Sources */,
 				32E357EB1B54737F00A9CDDD /* SWRequestManager.m in Sources */,
 				32E357E81B54733D00A9CDDD /* SWDataManager.m in Sources */,
 				32E357A11B546DFD00A9CDDD /* AppDelegate.m in Sources */,
+				32D079E11B55AA0F0004958B /* SWCity.m in Sources */,
 				32E3579E1B546DFD00A9CDDD /* main.m in Sources */,
 				32E357C91B546EDF00A9CDDD /* SimpleWeather.xcdatamodeld in Sources */,
 			);
@@ -489,6 +495,7 @@
 				32E357BD1B546DFD00A9CDDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		32E357BE1B546DFD00A9CDDD /* Build configuration list for PBXNativeTarget "SimpleWeatherTests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +504,7 @@
 				32E357C01B546DFD00A9CDDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

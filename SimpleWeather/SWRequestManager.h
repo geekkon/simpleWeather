@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^CompletionHandler)(BOOL successful, NSData *data, NSError *error);
+
 @interface SWRequestManager : NSObject
+
+- (void)getDataFromServerWithCompletionHandler:(CompletionHandler)completionHandler;
 
 @end

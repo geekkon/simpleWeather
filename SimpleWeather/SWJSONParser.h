@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+@class SWJSONParsedObject;
+
 @interface SWJSONParser : NSObject
+
+- (void)parseData:(NSData *)data completionHandler:(void (^)(BOOL success, SWJSONParsedObject *parsedObject, NSError *error))completionHandler;
 
 @end

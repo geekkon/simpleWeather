@@ -1,5 +1,5 @@
 //
-//  SWWeather.h
+//  SWJSONParsedObject.h
 //  SimpleWeather
 //
 //  Created by Dim on 15.07.15.
@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
-@class SWCity;
+@interface SWJSONParsedObject : NSObject
 
-@interface SWWeather : NSManagedObject
+@property (nonatomic, retain) NSNumber * cityID;
+@property (nonatomic, retain) NSString * country;
+@property (nonatomic, retain) NSNumber * lat;
+@property (nonatomic, retain) NSNumber * lon;
+@property (nonatomic, retain) NSString * name;
 
 @property (nonatomic, retain) NSNumber * conditionID;
 @property (nonatomic, retain) NSString * icon;
@@ -19,6 +22,5 @@
 @property (nonatomic, retain) NSString * main;
 @property (nonatomic, retain) NSNumber * temp;
 @property (nonatomic, retain) NSNumber * updateTime;
-@property (nonatomic, retain) SWCity *city;
 
 @end
