@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^CompletionHandler)(BOOL successful, NSData *data, NSError *error);
+typedef void (^CompletionHandler)(BOOL success, NSData *data, NSError *error);
 
 @interface SWRequestManager : NSObject
 

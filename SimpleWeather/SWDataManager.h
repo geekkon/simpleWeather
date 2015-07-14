@@ -8,12 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^CompletionBlock)(BOOL successful,  id oblect, NSError *error);
+@class SWDataManager, SWCity, SWWeather;
+
+@protocol SWDataManagerDelegate <NSObject>
+
+@optional
+
+- (void)dataManager:(SWDataManager *)dataManger didFetchWeather:(SWWeather *)weather forCity:(SWCity *)city;
+
+@end
 
 @interface SWDataManager : NSObject
 
 + (SWDataManager *)sharedManager;
 
-- (void)fetchWeatherWithCityID:(NSUInteger)cityID
-               completionBlock:(CompletionBlock)completionBlock;
+- (SWCity *)fetchCityFromStore;
+
+- (void)fetchWeatherForCity:(SWCity *)city delegate:(id <SWDataManagerDelegate>)delegate;
+
 @end

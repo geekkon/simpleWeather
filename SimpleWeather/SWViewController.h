@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SWViewController : UIViewController
+@interface SWViewController : UIViewController 
 
 @end
