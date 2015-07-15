@@ -24,6 +24,13 @@
 
 - (SWCity *)fetchCityFromStore;
 
-- (void)fetchWeatherForCity:(SWCity *)city delegate:(id <SWDataManagerDelegate>)delegate;
+//- (void)fetchWeatherForCity:(SWCity *)city delegate:(id <SWDataManagerDelegate>)delegate;
+- (void)fetchWeatherForCityID:(NSNumber *)cityID delegate:(id <SWDataManagerDelegate>)delegate;
+
+
+
+
+- (NSArray *)fetchCiries;
+
 
 @end

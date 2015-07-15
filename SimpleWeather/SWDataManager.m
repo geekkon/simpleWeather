@@ -39,6 +39,24 @@
     return manager;
 }
 
+- (NSArray *)fetchCiries {
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    fetchRequest.entity = [NSEntityDescription entityForName:@"SWCity"
+                                      inManagedObjectContext:self.managedObjectContext];
+    NSError *requestError = nil;
+    
+    NSArray *resultArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:&requestError];
+    
+    if (requestError) {
+        NSLog(@"%@", [requestError localizedDescription]);
+        return nil;
+    }
+    
+    return resultArray;
+}
+
 - (SWCity *)fetchCityFromStore {
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -48,6 +66,7 @@
     fetchRequest.fetchLimit = 1;
     
     NSError *requestError = nil;
+    
     NSArray *resultArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:&requestError];
     
     if (requestError) {
@@ -57,32 +76,45 @@
     
     return [resultArray firstObject];
 }
+//
+//- (void)fetchWeatherForCity:(SWCity *)city delegate:(id<SWDataManagerDelegate>)delegate {
+//    
+//    self.delegate = delegate;
+//    
+//    __weak SWDataManager *weakSelf = self;
+//
+//    [[[SWRequestManager alloc] init] getDataFromServerWithCompletionHandler:^(BOOL success, NSData *data, NSError *error) {
+//        if (success) {
+//            [weakSelf parserTaskWithData:data];
+//        } else {
+//            NSLog(@"Request error %@", [error localizedDescription]);
+//        }
+//    }];
+//}
 
-- (void)fetchWeatherForCity:(SWCity *)city delegate:(id<SWDataManagerDelegate>)delegate {
+- (void)fetchWeatherForCityID:(NSNumber *)cityID delegate:(id <SWDataManagerDelegate>)delegate {
     
     self.delegate = delegate;
     
     __weak SWDataManager *weakSelf = self;
-
-    [[[SWRequestManager alloc] init] getDataFromServerWithCompletionHandler:^(BOOL success, NSData *data, NSError *error) {
+    
+    [[[SWRequestManager alloc] init] getDataFromServerWithCityID:cityID
+                                               completionHandler:^(BOOL success, NSData *data, NSError *error) {
         if (success) {
-            NSLog(@"Data returened to DM");
             [weakSelf parserTaskWithData:data];
         } else {
             NSLog(@"Request error %@", [error localizedDescription]);
         }
     }];
+    
 }
 
 - (void)parserTaskWithData:(NSData *)data {
-    
-    NSLog(@"Parser call %@", [NSThread currentThread]);
     
     __weak SWDataManager *weakSelf = self;
     
     [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, SWJSONParsedObject *parsedObject, NSError *error) {
         if (success) {
-            NSLog(@"Parser return %@", [NSThread currentThread]);
             [weakSelf setupEntitiesFromParsedObject:parsedObject];
         } else {
             NSLog(@"Parsing error %@", [error localizedDescription]);
@@ -92,25 +124,36 @@
 
 - (void)setupEntitiesFromParsedObject:(SWJSONParsedObject *)parsedObject {
     
-    SWCity *city = [NSEntityDescription insertNewObjectForEntityForName:@"SWCity"
-                                                 inManagedObjectContext:self.managedObjectContext];
+    SWCity *city = [self fetchCityFromStore];
     
+    if (!city) {
+        city = [NSEntityDescription insertNewObjectForEntityForName:@"SWCity"
+                                             inManagedObjectContext:self.managedObjectContext];
+    }
+    
+    SWWeather *weather = city.weather;
+    
+    if (!weather) {
+        weather = [NSEntityDescription insertNewObjectForEntityForName:@"SWWeather"
+                                                inManagedObjectContext:self.managedObjectContext];
+        city.weather = weather;
+    }
+        
     city.name = parsedObject.name;
     city.country = parsedObject.country;
     city.cityID = parsedObject.cityID;
     city.lon = parsedObject.lon;
     city.lat = parsedObject.lat;
     
-    SWWeather *weather = [NSEntityDescription insertNewObjectForEntityForName:@"SWWeather"
-                                                 inManagedObjectContext:self.managedObjectContext];
-    
+    weather.updateTime = parsedObject.updateTime;
     weather.temp = parsedObject.temp;
+    weather.info = parsedObject.info;
+    weather.icon = parsedObject.icon;
+    weather.conditionID = parsedObject.conditionID;
+    weather.main = parsedObject.main;
     
     [self saveContext];
-    
-
-    NSLog(@"Call delegate %@", [NSThread currentThread]);
-    
+        
     if ([self.delegate respondsToSelector:@selector(dataManager:didFetchWeather:forCity:)]) {
         [self.delegate dataManager:self didFetchWeather:weather forCity:city];
     }

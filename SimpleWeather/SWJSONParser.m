@@ -21,11 +21,8 @@
         return;
     }
     
-    NSLog(@"%@", [NSThread currentThread]);
     
     dispatch_async([SWJSONParser queue], ^ {
-        
-        NSLog(@"%@", [NSThread currentThread]);
         
         NSError *error = nil;
         
@@ -62,10 +59,5 @@
         }
     });
 }
-
-- (void)dealloc {
-    NSLog(@"Parser DEALLOCATED");
-}
-
 
 @end
