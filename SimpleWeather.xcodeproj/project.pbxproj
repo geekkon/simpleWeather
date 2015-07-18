@@ -155,10 +155,10 @@
 				32E357E71B54733D00A9CDDD /* SWDataManager.m */,
 				32E357E91B54737F00A9CDDD /* SWRequestManager.h */,
 				32E357EA1B54737F00A9CDDD /* SWRequestManager.m */,
-				32D079DC1B55A6C70004958B /* SWJSONParsedObject.h */,
-				32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */,
 				32E357EC1B5473EA00A9CDDD /* SWJSONParser.h */,
 				32E357ED1B5473EA00A9CDDD /* SWJSONParser.m */,
+				32D079DC1B55A6C70004958B /* SWJSONParsedObject.h */,
+				32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";

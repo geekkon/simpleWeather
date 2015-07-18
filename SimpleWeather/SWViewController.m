@@ -18,7 +18,7 @@
 @property (strong, nonatomic) SWCity *city;
 @property (strong, nonatomic) SWWeather *weather;
 
-@property (strong, nonatomic) UISearchController *searchController;
+@property (nonatomic) BOOL shouldShowSearchOnStart;
 
 @end
 
@@ -38,13 +38,21 @@
 //        [[SWDataManager sharedManager] fetchWeatherForCity:city delegate:self];
         [[SWDataManager sharedManager] fetchWeatherForCityID:city.cityID delegate:self];
     } else {
-        // open city picker
+    
+//        self.shouldShowSearchOnStart = YES;
+        [self openCityPicker];
         
-
-        
-//        [self openCityPicker];
     }
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (self.shouldShowSearchOnStart) {
+        self.shouldShowSearchOnStart = NO;
+        [self performSegueWithIdentifier:@"showSearch" sender:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,12 +64,12 @@
     
     self.iconImageView.image = [UIImage imageNamed:self.weather.icon];
     
-    [UIView animateWithDuration:3.0
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
-                     animations:^{
-                         self.iconImageView.transform = CGAffineTransformMakeScale(0.9, 0.9);
-                     } completion:nil];
+//    [UIView animateWithDuration:3.0
+//                          delay:0.0
+//                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
+//                     animations:^{
+//                         self.iconImageView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+//                     } completion:nil];
     
     NSLog(@"%@ %@, %@ [%@,%@] %@", self.city.cityID, self.city.name, self.city.country, self.city.lat, self.city.lon, self.weather.temp);
 }
@@ -70,6 +78,7 @@
     
     NSNumber *cityID = @2172797;
 //    NSNumber *cityID = @91597;
+//    NSNumber *cityID = @499099;
 
     
     [[SWDataManager sharedManager] fetchWeatherForCityID:cityID delegate:self];

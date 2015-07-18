@@ -15,12 +15,11 @@
    return dispatch_queue_create("simple.weather.parser.queue", DISPATCH_QUEUE_SERIAL);
 }
 
-- (void)parseData:(NSData *)data completionHandler:(void (^)(BOOL, SWJSONParsedObject *, NSError *))completionHandler {
+- (void)parseData:(NSData *)data completionHandler:(void (^)(BOOL success, NSArray *parsedObjects, NSError *error))completionHandler {
     
     if (!completionHandler) {
         return;
     }
-    
     
     dispatch_async([SWJSONParser queue], ^ {
         
@@ -37,23 +36,26 @@
         } else {
             if ([NSJSONSerialization isValidJSONObject:JSON]) {
                 
-                SWJSONParsedObject *parsedObject = [[SWJSONParsedObject alloc] init];
+                NSMutableArray *parsedObjects = [NSMutableArray array];
                 
-                parsedObject.name = JSON[@"name"];
-                parsedObject.country = JSON[@"sys"][@"country"];
-                parsedObject.cityID =  JSON[@"id"] ;
-                parsedObject.lon = JSON[@"coord"][@"lon"];
-                parsedObject.lat = JSON[@"coord"][@"lat"];
-                
-                parsedObject.conditionID = JSON[@"weather"][0][@"id"];
-                parsedObject.icon = JSON[@"weather"][0][@"icon"];
-                parsedObject.info = JSON[@"weather"][0][@"description"];
-                parsedObject.main = JSON[@"weather"][0][@"main"];
-                parsedObject.temp = JSON[@"main"][@"temp"];
-                parsedObject.updateTime = JSON[@"dt"];
+                if (JSON[@"list"]) {
+                    
+                    NSArray *list = JSON[@"list"];
+                    
+                    for (NSDictionary *json in list) {
+                        [parsedObjects addObject:[SWJSONParsedObject parsedObjectWithDictionaryFromJSON:json]];
+                    }
+                    
+                } else {
+                    
+                    
+                    SWJSONParsedObject *parsedObject = [SWJSONParsedObject parsedObjectWithDictionaryFromJSON:JSON];
+                    
+                    [parsedObjects addObject:parsedObject];
+                }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completionHandler(YES, parsedObject, nil);
+                    completionHandler(YES, parsedObjects, nil);
                 });
             }
         }

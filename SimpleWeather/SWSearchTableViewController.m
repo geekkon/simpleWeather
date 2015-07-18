@@ -7,8 +7,14 @@
 //
 
 #import "SWSearchTableViewController.h"
+#import "SWDataManager.h"
+#import "SWJSONParsedObject.h"
 
-@interface SWSearchTableViewController ()
+@interface SWSearchTableViewController () <SWDataManagerDelegate>
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (strong, nonatomic) NSArray *cities;
 
 @end
 
@@ -21,7 +27,12 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+//     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [self.searchBar becomeFirstResponder];
+    
+    UIBarButtonItem *locationBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:nil action:nil];
+    self.navigationItem.leftBarButtonItem = locationBarButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,19 +40,96 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)requestCityWithString:(NSString *)string {
+    
+    [[SWDataManager sharedManager] findCitiesByNameWithString:string delegate:self];
+    
+//    
+//    NSString *stringURL = [NSString stringWithFormat:@"http://api.openweathermap.org/data/2.5/find?q=%@&type=like&units=metric", string];
+//    
+//    [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:stringURL]
+//                                 completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//                                     
+//                                     if (!error) {
+//                                         
+//                                         NSError *parsingError = nil;
+//                                         
+//                                         NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data
+//                                                                                                    options:0
+//                                                                                                      error:&parsingError];
+//                                         
+//                                         if (parsingError) {
+//                                             NSLog(@"Parsing error %@", [error localizedDescription]);
+//                                         }
+//                                         
+//                                         self.cities = [NSMutableArray array];
+//                                         
+//                                         if ([NSJSONSerialization isValidJSONObject:dictionary]) {
+//                                             
+//                                             if (dictionary[@"list"]) {
+//                                                 
+//                                                 NSArray *list = dictionary[@"list"];
+//                                                 
+//                                                 for (NSDictionary *dt in list) {
+//                                                     
+//                                                     [self.cities addObject:dt[@"name"]];
+//                                                     
+//                                                 }
+//                                                 
+//                                             }
+//                                             
+//                                             NSLog(@"JSON %@", dictionary);
+//                                             
+//                                         }
+//                                         
+//                                         dispatch_async(dispatch_get_main_queue(), ^{
+//                                             [self.tableView reloadData];
+//                                             
+//                                         });
+//                                         
+//                                         
+//                                     } else {
+//                                         NSLog(@"Request error %@", [error localizedDescription]);
+//                                     }
+//                                     
+//                                 }] resume];
+    
+}
+
+
+#pragma mark - <UISearchBarDelegate>
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+    if (searchBar.text.length < 3) {
+        [self showAlertWithMessage:@"Please, type at least 3 letters"];
+        return;
+    }
+    
+    [self requestCityWithString:searchBar.text];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Table view data source
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 1;
+    return [self.cities count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    cell.textLabel.text = @"Text";
+    SWJSONParsedObject *parsedObject = self.cities[indexPath.row];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%@, %@", parsedObject.name, parsedObject.country];
+    
     return cell;
 }
 
@@ -89,5 +177,19 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - <SWDataManagerDelegate>
+
+- (void)dataManager:(SWDataManager *)dataManger didFindCities:(NSArray *)cities {
+    
+    self.cities = cities;
+    [self.tableView reloadData];
+}
+
+#pragma marl - Private
+
+- (void)showAlertWithMessage:(NSString *)message {
+    NSLog(@"%@", message);
+}
 
 @end

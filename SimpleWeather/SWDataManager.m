@@ -76,46 +76,71 @@
     
     return [resultArray firstObject];
 }
-//
-//- (void)fetchWeatherForCity:(SWCity *)city delegate:(id<SWDataManagerDelegate>)delegate {
-//    
-//    self.delegate = delegate;
-//    
-//    __weak SWDataManager *weakSelf = self;
-//
-//    [[[SWRequestManager alloc] init] getDataFromServerWithCompletionHandler:^(BOOL success, NSData *data, NSError *error) {
-//        if (success) {
-//            [weakSelf parserTaskWithData:data];
-//        } else {
-//            NSLog(@"Request error %@", [error localizedDescription]);
-//        }
-//    }];
-//}
 
 - (void)fetchWeatherForCityID:(NSNumber *)cityID delegate:(id <SWDataManagerDelegate>)delegate {
     
     self.delegate = delegate;
     
+    NSDictionary *params = @{@"cityID" : cityID};
+
+    [self requestManagerTaskWithParams:params];
+}
+
+- (void)findCitiesByNameWithString:(NSString *)string delegate:(id <SWDataManagerDelegate>)delegate {
+
+    self.delegate = delegate;
+    
+    NSDictionary *params = @{@"cities" : string};
+
+    [self requestManagerTaskWithParams:params];
+}
+
+- (void)requestManagerTaskWithParams:(NSDictionary *)params {
+    
     __weak SWDataManager *weakSelf = self;
     
-    [[[SWRequestManager alloc] init] getDataFromServerWithCityID:cityID
+    [[[SWRequestManager alloc] init] getDataFromServerWithParams:params
                                                completionHandler:^(BOOL success, NSData *data, NSError *error) {
-        if (success) {
-            [weakSelf parserTaskWithData:data];
-        } else {
-            NSLog(@"Request error %@", [error localizedDescription]);
-        }
-    }];
+                                                   if (success) {
+                                                       [weakSelf handleData:data withParams:params];
+                                                   } else {
+                                                       NSLog(@"Request error %@", [error localizedDescription]);
+                                                   }
+                                               }];
+}
+
+- (void)handleData:(NSData *)data withParams:(NSDictionary *)params {
     
+    if (params[@"cityID"]) {
+        [self parserTaskWithData:data];
+    } else if (params[@"cities"]) {
+        [self parseCitiesWithData:data];
+    }
+                
 }
 
 - (void)parserTaskWithData:(NSData *)data {
     
     __weak SWDataManager *weakSelf = self;
     
-    [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, SWJSONParsedObject *parsedObject, NSError *error) {
+    [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, NSArray *parsedObjects, NSError *error) {
         if (success) {
-            [weakSelf setupEntitiesFromParsedObject:parsedObject];
+            [weakSelf setupEntitiesFromParsedObject:[parsedObjects firstObject]];
+        } else {
+            NSLog(@"Parsing error %@", [error localizedDescription]);
+        }
+    }];
+}
+
+- (void)parseCitiesWithData:(NSData *)data {
+    
+    __weak SWDataManager *weakSelf = self;
+    
+    [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, NSArray *parsedObjects, NSError *error) {
+        if (success) {
+            if ([weakSelf.delegate respondsToSelector:@selector(dataManager:didFindCities:)]) {
+                [weakSelf.delegate dataManager:weakSelf didFindCities:parsedObjects];
+            }
         } else {
             NSLog(@"Parsing error %@", [error localizedDescription]);
         }

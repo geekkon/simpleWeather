@@ -23,4 +23,6 @@
 @property (nonatomic, retain) NSNumber * temp;
 @property (nonatomic, retain) NSNumber * updateTime;
 
++ (SWJSONParsedObject *)parsedObjectWithDictionaryFromJSON:(NSDictionary *)JSON;
+
 @end

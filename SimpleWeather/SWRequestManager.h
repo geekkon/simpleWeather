@@ -10,6 +10,6 @@
 
 @interface SWRequestManager : NSObject
 
-- (void)getDataFromServerWithCityID:(NSNumber *)cityID completionHandler:(void (^)(BOOL success, NSData *data, NSError *error))completionHandler;
+- (void)getDataFromServerWithParams:(NSDictionary *)params completionHandler:(void (^)(BOOL success, NSData *data, NSError *error))completionHandler;
 
 @end
