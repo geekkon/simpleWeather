@@ -7,17 +7,19 @@
 //
 
 #import "SWViewController.h"
-#import "SWSearchTableViewController.h"
-#import "SWDataManager.h"
+#import "SWDataController.h"
 #import "SWCity.h"
 #import "SWWeather.h"
 
-@interface SWViewController () <SWDataManagerDelegate>
+@interface SWViewController () <SWDataControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *cityLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tempLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *updateLabel;
 
 @property (strong, nonatomic) SWCity *city;
-@property (strong, nonatomic) SWWeather *weather;
 
 @property (nonatomic) BOOL shouldShowSearchOnStart;
 
@@ -29,22 +31,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[SWDataController defaultController] setDelegate:self];
     
-    NSArray *cities = [[SWDataManager sharedManager] fetchCiries];
+    NSArray *cities = [[SWDataController defaultController] getCities];
     NSLog(@"CITIES %@", cities);
  
-    SWCity *city = [[SWDataManager sharedManager] fetchCityFromStore];
+    SWCity *city = [[SWDataController defaultController] getCurrentCity];
     
     if (city) {
-//        [[SWDataManager sharedManager] fetchWeatherForCity:city delegate:self];
-        [[SWDataManager sharedManager] fetchWeatherForCityID:city.cityID delegate:self];
+        self.city = city;
+        [self updateUI];
     } else {
-    
-//        self.shouldShowSearchOnStart = YES;
-        [self openCityPicker];
-        
+        self.shouldShowSearchOnStart = YES;
     }
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -61,57 +60,38 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Private
+
 - (void)updateUI {
     
-    self.iconImageView.image = [UIImage imageNamed:self.weather.icon];
+    self.cityLabel.text = self.city.name;
     
-//    [UIView animateWithDuration:3.0
+    SWWeather *weather = self.city.weather;
+    
+    NSLog(@"%@", weather.temp);
+    
+    self.tempLabel.text = [NSString stringWithFormat:@"%.1f℃", roundf([weather.temp floatValue])];
+    self.iconImageView.image = [UIImage imageNamed:weather.icon];
+    self.infoLabel.text = weather.info;
+    self.updateLabel.text = [NSString stringWithFormat:@"%@", weather.updateTime];
+    
+    //    [UIView animateWithDuration:3.0
 //                          delay:0.0
 //                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
 //                     animations:^{
 //                         self.iconImageView.transform = CGAffineTransformMakeScale(0.9, 0.9);
 //                     } completion:nil];
-    
-    NSLog(@"%@ %@, %@ [%@,%@] %@", self.city.cityID, self.city.name, self.city.country, self.city.lat, self.city.lon, self.weather.temp);
+//    
+//    NSLog(@"%@ %@, %@ [%@,%@] %@", self.city.cityID, self.city.name, self.city.country, self.city.lat, self.city.lon, self.weather.temp);
 }
-
-- (void)openCityPicker {
-    
-    NSNumber *cityID = @2172797;
-//    NSNumber *cityID = @91597;
-//    NSNumber *cityID = @499099;
-
-    
-    [[SWDataManager sharedManager] fetchWeatherForCityID:cityID delegate:self];
-}
-
 
 #pragma mark - <SWDataManagerDelegate>
 
-- (void)dataManager:(SWDataManager *)dataManger didFetchWeather:(SWWeather *)weather forCity:(SWCity *)city {
+- (void)dataController:(SWDataController *)dataController didFetchWeatherForCity:(SWCity *)city {
     
     self.city = city;
-    self.weather = weather;
     
     [self updateUI];
-}
-
-#pragma mark - Sugue
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
-    if ([[segue identifier] isEqualToString:@"showSearch"]) {
-        
-        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-        
-        SWSearchTableViewController *searchTableViewController = (SWSearchTableViewController *)navigationController.topViewController;
-        
-        __weak SWViewController *weakSelf = self;
-        
-        searchTableViewController.selectionBlock = ^(SWJSONParsedObject *parsedObject) {
-            [[SWDataManager sharedManager] updateLocalStoreWithParsedObject:parsedObject delegate:weakSelf];
-        };
-    }
 }
 
 @end

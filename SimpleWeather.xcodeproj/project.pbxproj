@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		327DA31E1B5BBAE10063D39A /* SWSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 327DA31D1B5BBAE10063D39A /* SWSearchController.m */; };
+		327DA3211B5BE38A0063D39A /* SWLocalStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 327DA3201B5BE38A0063D39A /* SWLocalStoreManager.m */; };
 		32D079DE1B55A6C70004958B /* SWJSONParsedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */; };
 		32D079E11B55AA0F0004958B /* SWCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079E01B55AA0F0004958B /* SWCity.m */; };
 		32D079E41B55AA100004958B /* SWWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079E31B55AA100004958B /* SWWeather.m */; };
@@ -20,7 +22,7 @@
 		32E357C21B546E2400A9CDDD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32E357C11B546E2400A9CDDD /* CoreData.framework */; };
 		32E357C91B546EDF00A9CDDD /* SimpleWeather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 32E357C71B546EDF00A9CDDD /* SimpleWeather.xcdatamodeld */; };
 		32E357E41B5472BC00A9CDDD /* SWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357E31B5472BC00A9CDDD /* SWViewController.m */; };
-		32E357E81B54733D00A9CDDD /* SWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357E71B54733D00A9CDDD /* SWDataManager.m */; };
+		32E357E81B54733D00A9CDDD /* SWDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357E71B54733D00A9CDDD /* SWDataController.m */; };
 		32E357EB1B54737F00A9CDDD /* SWRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357EA1B54737F00A9CDDD /* SWRequestManager.m */; };
 		32E357EE1B5473EA00A9CDDD /* SWJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 32E357ED1B5473EA00A9CDDD /* SWJSONParser.m */; };
 /* End PBXBuildFile section */
@@ -36,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		327DA31C1B5BBAE10063D39A /* SWSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWSearchController.h; sourceTree = "<group>"; };
+		327DA31D1B5BBAE10063D39A /* SWSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWSearchController.m; sourceTree = "<group>"; };
+		327DA31F1B5BE38A0063D39A /* SWLocalStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWLocalStoreManager.h; sourceTree = "<group>"; };
+		327DA3201B5BE38A0063D39A /* SWLocalStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWLocalStoreManager.m; sourceTree = "<group>"; };
 		32D079DC1B55A6C70004958B /* SWJSONParsedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWJSONParsedObject.h; sourceTree = "<group>"; };
 		32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWJSONParsedObject.m; sourceTree = "<group>"; };
 		32D079DF1B55AA0F0004958B /* SWCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCity.h; sourceTree = "<group>"; };
@@ -59,8 +65,8 @@
 		32E357C81B546EDF00A9CDDD /* SimpleWeather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SimpleWeather.xcdatamodel; sourceTree = "<group>"; };
 		32E357E21B5472BC00A9CDDD /* SWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWViewController.h; sourceTree = "<group>"; };
 		32E357E31B5472BC00A9CDDD /* SWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWViewController.m; sourceTree = "<group>"; };
-		32E357E61B54733D00A9CDDD /* SWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWDataManager.h; sourceTree = "<group>"; };
-		32E357E71B54733D00A9CDDD /* SWDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWDataManager.m; sourceTree = "<group>"; };
+		32E357E61B54733D00A9CDDD /* SWDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWDataController.h; sourceTree = "<group>"; };
+		32E357E71B54733D00A9CDDD /* SWDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWDataController.m; sourceTree = "<group>"; };
 		32E357E91B54737F00A9CDDD /* SWRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRequestManager.h; sourceTree = "<group>"; };
 		32E357EA1B54737F00A9CDDD /* SWRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRequestManager.m; sourceTree = "<group>"; };
 		32E357EC1B5473EA00A9CDDD /* SWJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWJSONParser.h; sourceTree = "<group>"; };
@@ -151,8 +157,12 @@
 			children = (
 				32E357E51B54730300A9CDDD /* Entity */,
 				32E357C71B546EDF00A9CDDD /* SimpleWeather.xcdatamodeld */,
-				32E357E61B54733D00A9CDDD /* SWDataManager.h */,
-				32E357E71B54733D00A9CDDD /* SWDataManager.m */,
+				327DA31F1B5BE38A0063D39A /* SWLocalStoreManager.h */,
+				327DA3201B5BE38A0063D39A /* SWLocalStoreManager.m */,
+				32E357E61B54733D00A9CDDD /* SWDataController.h */,
+				32E357E71B54733D00A9CDDD /* SWDataController.m */,
+				327DA31C1B5BBAE10063D39A /* SWSearchController.h */,
+				327DA31D1B5BBAE10063D39A /* SWSearchController.m */,
 				32E357E91B54737F00A9CDDD /* SWRequestManager.h */,
 				32E357EA1B54737F00A9CDDD /* SWRequestManager.m */,
 				32E357EC1B5473EA00A9CDDD /* SWJSONParser.h */,
@@ -298,9 +308,11 @@
 				32D079F01B57038E0004958B /* SWSearchTableViewController.m in Sources */,
 				32D079DE1B55A6C70004958B /* SWJSONParsedObject.m in Sources */,
 				32D079E41B55AA100004958B /* SWWeather.m in Sources */,
+				327DA3211B5BE38A0063D39A /* SWLocalStoreManager.m in Sources */,
 				32E357E41B5472BC00A9CDDD /* SWViewController.m in Sources */,
 				32E357EB1B54737F00A9CDDD /* SWRequestManager.m in Sources */,
-				32E357E81B54733D00A9CDDD /* SWDataManager.m in Sources */,
+				32E357E81B54733D00A9CDDD /* SWDataController.m in Sources */,
+				327DA31E1B5BBAE10063D39A /* SWSearchController.m in Sources */,
 				32E357A11B546DFD00A9CDDD /* AppDelegate.m in Sources */,
 				32D079E11B55AA0F0004958B /* SWCity.m in Sources */,
 				32E3579E1B546DFD00A9CDDD /* main.m in Sources */,

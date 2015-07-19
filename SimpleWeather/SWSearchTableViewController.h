@@ -10,10 +10,6 @@
 
 @class SWJSONParsedObject;
 
-typedef void (^SelectionBlock)(SWJSONParsedObject *parsedObject);
-
 @interface SWSearchTableViewController : UITableViewController
-
-@property (copy, nonatomic) SelectionBlock selectionBlock;
 
 @end

@@ -1,63 +1,29 @@
 //
-//  SWDataManager.m
+//  SWLocalStoreManager.m
 //  SimpleWeather
 //
-//  Created by Dim on 14.07.15.
+//  Created by Dim on 19.07.15.
 //  Copyright (c) 2015 Dmitriy Baklanov. All rights reserved.
 //
 
 @import CoreData;
 
-#import "SWDataManager.h"
+#import "SWLocalStoreManager.h"
 #import "SWCity.h"
 #import "SWWeather.h"
-#import "SWRequestManager.h"
 #import "SWJSONParsedObject.h"
-#import "SWJSONParser.h"
 
-@interface SWDataManager ()
+@interface SWLocalStoreManager ()
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (weak, nonatomic) id <SWDataManagerDelegate> delegate;
-
 @end
 
-@implementation SWDataManager
+@implementation SWLocalStoreManager
 
-+ (SWDataManager *)sharedManager {
-   
-    static SWDataManager *manager = nil;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        manager = [[SWDataManager alloc] init];
-    });
-    
-    return manager;
-}
-
-- (NSArray *)fetchCiries {
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    fetchRequest.entity = [NSEntityDescription entityForName:@"SWCity"
-                                      inManagedObjectContext:self.managedObjectContext];
-    NSError *requestError = nil;
-    
-    NSArray *resultArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:&requestError];
-    
-    if (requestError) {
-        NSLog(@"%@", [requestError localizedDescription]);
-        return nil;
-    }
-    
-    return resultArray;
-}
-
-- (SWCity *)fetchCityFromStore {
+- (SWCity *)fetchCurrentCity {
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
@@ -77,79 +43,27 @@
     return [resultArray firstObject];
 }
 
-- (void)fetchWeatherForCityID:(NSNumber *)cityID delegate:(id <SWDataManagerDelegate>)delegate {
+- (NSArray *)fetchCities {
     
-    self.delegate = delegate;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
-    NSDictionary *params = @{@"cityID" : cityID};
-
-    [self requestManagerTaskWithParams:params];
-}
-
-- (void)findCitiesByNameWithString:(NSString *)string delegate:(id <SWDataManagerDelegate>)delegate {
-
-    self.delegate = delegate;
+    fetchRequest.entity = [NSEntityDescription entityForName:@"SWCity"
+                                      inManagedObjectContext:self.managedObjectContext];
+    NSError *requestError = nil;
     
-    NSDictionary *params = @{@"cities" : string};
-
-    [self requestManagerTaskWithParams:params];
-}
-
-- (void)requestManagerTaskWithParams:(NSDictionary *)params {
+    NSArray *resultArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:&requestError];
     
-    __weak SWDataManager *weakSelf = self;
-    
-    [[[SWRequestManager alloc] init] getDataFromServerWithParams:params
-                                               completionHandler:^(BOOL success, NSData *data, NSError *error) {
-                                                   if (success) {
-                                                       [weakSelf handleData:data withParams:params];
-                                                   } else {
-                                                       NSLog(@"Request error %@", [error localizedDescription]);
-                                                   }
-                                               }];
-}
-
-- (void)handleData:(NSData *)data withParams:(NSDictionary *)params {
-    
-    if (params[@"cityID"]) {
-        [self parserTaskWithData:data];
-    } else if (params[@"cities"]) {
-        [self parseCitiesWithData:data];
+    if (requestError) {
+        NSLog(@"%@", [requestError localizedDescription]);
+        return nil;
     }
-                
+    
+    return resultArray;
 }
 
-- (void)parserTaskWithData:(NSData *)data {
+- (SWCity *)updateWithParsedObject:(SWJSONParsedObject *)parsedObject {
     
-    __weak SWDataManager *weakSelf = self;
-    
-    [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, NSArray *parsedObjects, NSError *error) {
-        if (success) {
-            [weakSelf updateLocalStoreWithParsedObject:[parsedObjects firstObject]];
-        } else {
-            NSLog(@"Parsing error %@", [error localizedDescription]);
-        }
-    }];
-}
-
-- (void)parseCitiesWithData:(NSData *)data {
-    
-    __weak SWDataManager *weakSelf = self;
-    
-    [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, NSArray *parsedObjects, NSError *error) {
-        if (success) {
-            if ([weakSelf.delegate respondsToSelector:@selector(dataManager:didFindCities:)]) {
-                [weakSelf.delegate dataManager:weakSelf didFindCities:parsedObjects];
-            }
-        } else {
-            NSLog(@"Parsing error %@", [error localizedDescription]);
-        }
-    }];
-}
-
-- (void)updateLocalStoreWithParsedObject:(SWJSONParsedObject *)parsedObject {
-    
-    SWCity *city = [self fetchCityFromStore];
+    SWCity *city = [self fetchCurrentCity];
     
     if (!city) {
         city = [NSEntityDescription insertNewObjectForEntityForName:@"SWCity"
@@ -163,7 +77,7 @@
                                                 inManagedObjectContext:self.managedObjectContext];
         city.weather = weather;
     }
-        
+    
     city.name = parsedObject.name;
     city.country = parsedObject.country;
     city.cityID = parsedObject.cityID;
@@ -178,17 +92,8 @@
     weather.main = parsedObject.main;
     
     [self saveContext];
-        
-    if ([self.delegate respondsToSelector:@selector(dataManager:didFetchWeather:forCity:)]) {
-        [self.delegate dataManager:self didFetchWeather:weather forCity:city];
-    }
-}
-
-- (void)updateLocalStoreWithParsedObject:(SWJSONParsedObject *)parsedObject delegate:(id<SWDataManagerDelegate>)delegate {
     
-    self.delegate = delegate;
-    
-    [self updateLocalStoreWithParsedObject:parsedObject];
+    return city;
 }
 
 #pragma mark - Core Data stack
