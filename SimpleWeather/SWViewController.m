@@ -7,6 +7,7 @@
 //
 
 #import "SWViewController.h"
+#import "SWSearchTableViewController.h"
 #import "SWDataManager.h"
 #import "SWCity.h"
 #import "SWWeather.h"
@@ -100,7 +101,16 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     if ([[segue identifier] isEqualToString:@"showSearch"]) {
-
+        
+        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+        
+        SWSearchTableViewController *searchTableViewController = (SWSearchTableViewController *)navigationController.topViewController;
+        
+        __weak SWViewController *weakSelf = self;
+        
+        searchTableViewController.selectionBlock = ^(SWJSONParsedObject *parsedObject) {
+            [[SWDataManager sharedManager] updateLocalStoreWithParsedObject:parsedObject delegate:weakSelf];
+        };
     }
 }
 

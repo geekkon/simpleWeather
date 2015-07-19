@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class SWDataManager, SWCity, SWWeather;
+@class SWDataManager, SWJSONParsedObject, SWCity, SWWeather;
 
 @protocol SWDataManagerDelegate <NSObject>
 
@@ -30,7 +30,8 @@
 
 - (void)findCitiesByNameWithString:(NSString *)string delegate:(id <SWDataManagerDelegate>)delegate;
 
-- (NSArray *)fetchCiries;
+- (void)updateLocalStoreWithParsedObject:(SWJSONParsedObject *)parsedObject delegate:(id <SWDataManagerDelegate>)delegate;
 
+- (NSArray *)fetchCiries;
 
 @end

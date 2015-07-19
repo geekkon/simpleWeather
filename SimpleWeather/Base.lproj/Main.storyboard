@@ -29,7 +29,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Ytx-5G-Fln" kind="presentation" identifier="showSearch" modalTransitionStyle="flipHorizontal" id="zy1-PH-6Bc"/>
+                                    <segue destination="Ytx-5G-Fln" kind="presentation" identifier="showSearch" modalTransitionStyle="coverVertical" id="zy1-PH-6Bc"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -69,6 +69,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="rGp-xP-Ute">
+                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="ppu-Xq-Dmb"/>
                         <connections>
                             <outlet property="titleView" destination="bnB-z2-dLa" id="XpS-TQ-iwE"/>
                         </connections>

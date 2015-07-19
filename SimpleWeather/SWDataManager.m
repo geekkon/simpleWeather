@@ -125,7 +125,7 @@
     
     [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, NSArray *parsedObjects, NSError *error) {
         if (success) {
-            [weakSelf setupEntitiesFromParsedObject:[parsedObjects firstObject]];
+            [weakSelf updateLocalStoreWithParsedObject:[parsedObjects firstObject]];
         } else {
             NSLog(@"Parsing error %@", [error localizedDescription]);
         }
@@ -147,7 +147,7 @@
     }];
 }
 
-- (void)setupEntitiesFromParsedObject:(SWJSONParsedObject *)parsedObject {
+- (void)updateLocalStoreWithParsedObject:(SWJSONParsedObject *)parsedObject {
     
     SWCity *city = [self fetchCityFromStore];
     
@@ -182,6 +182,13 @@
     if ([self.delegate respondsToSelector:@selector(dataManager:didFetchWeather:forCity:)]) {
         [self.delegate dataManager:self didFetchWeather:weather forCity:city];
     }
+}
+
+- (void)updateLocalStoreWithParsedObject:(SWJSONParsedObject *)parsedObject delegate:(id<SWDataManagerDelegate>)delegate {
+    
+    self.delegate = delegate;
+    
+    [self updateLocalStoreWithParsedObject:parsedObject];
 }
 
 #pragma mark - Core Data stack
