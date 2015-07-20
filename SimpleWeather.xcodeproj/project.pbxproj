@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		327DA31E1B5BBAE10063D39A /* SWSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 327DA31D1B5BBAE10063D39A /* SWSearchController.m */; };
 		327DA3211B5BE38A0063D39A /* SWLocalStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 327DA3201B5BE38A0063D39A /* SWLocalStoreManager.m */; };
+		32C6639A1B5D342200A713B9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32C663991B5D342200A713B9 /* CoreLocation.framework */; };
 		32D079DE1B55A6C70004958B /* SWJSONParsedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */; };
 		32D079E11B55AA0F0004958B /* SWCity.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079E01B55AA0F0004958B /* SWCity.m */; };
 		32D079E41B55AA100004958B /* SWWeather.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D079E31B55AA100004958B /* SWWeather.m */; };
@@ -42,6 +43,7 @@
 		327DA31D1B5BBAE10063D39A /* SWSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWSearchController.m; sourceTree = "<group>"; };
 		327DA31F1B5BE38A0063D39A /* SWLocalStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWLocalStoreManager.h; sourceTree = "<group>"; };
 		327DA3201B5BE38A0063D39A /* SWLocalStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWLocalStoreManager.m; sourceTree = "<group>"; };
+		32C663991B5D342200A713B9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		32D079DC1B55A6C70004958B /* SWJSONParsedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWJSONParsedObject.h; sourceTree = "<group>"; };
 		32D079DD1B55A6C70004958B /* SWJSONParsedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWJSONParsedObject.m; sourceTree = "<group>"; };
 		32D079DF1B55AA0F0004958B /* SWCity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCity.h; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32C6639A1B5D342200A713B9 /* CoreLocation.framework in Frameworks */,
 				32E357C21B546E2400A9CDDD /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +98,7 @@
 		32E3578F1B546DFD00A9CDDD = {
 			isa = PBXGroup;
 			children = (
+				32C663991B5D342200A713B9 /* CoreLocation.framework */,
 				32E357C11B546E2400A9CDDD /* CoreData.framework */,
 				32E3579A1B546DFD00A9CDDD /* SimpleWeather */,
 				32E357B41B546DFD00A9CDDD /* SimpleWeatherTests */,

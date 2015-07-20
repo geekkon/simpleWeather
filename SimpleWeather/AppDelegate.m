@@ -16,6 +16,14 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSDictionary *attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:12.0],
+                                 NSForegroundColorAttributeName : [UIColor lightGrayColor]};
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:attributes];
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    
     // Override point for customization after application launch.
     return YES;
 }

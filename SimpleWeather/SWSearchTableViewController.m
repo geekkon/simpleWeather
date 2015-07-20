@@ -14,6 +14,7 @@
 @interface SWSearchTableViewController () <SWSearchControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 @property (strong, nonatomic) SWSearchController *searchController;
 
@@ -37,9 +38,19 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)requestCityWithString:(NSString *)string {
+#pragma mark - Getters
+
+- (UIActivityIndicatorView *)activityIndicator {
     
-    [self.searchController findCitiesByNameWithString:string];
+    if (!_activityIndicator) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _activityIndicator.color = [UIColor darkGrayColor];
+        _activityIndicator.hidesWhenStopped = YES;
+        _activityIndicator.frame = self.tableView.bounds;
+        [self.tableView addSubview:_activityIndicator];
+    }
+    
+    return _activityIndicator;
 }
 
 #pragma mark - <UISearchBarDelegate>
@@ -59,7 +70,13 @@
         return;
     }
     
-    [self requestCityWithString:searchBar.text];
+    if (self.cities) {
+        self.cities = nil;
+        [self.tableView reloadData];
+    }
+    
+    [self.activityIndicator startAnimating];
+    [self.searchController findCitiesByNameWithString:searchBar.text];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -78,14 +95,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
 #pragma mark - <UITableViewDataSource>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     return [self.cities count];
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
@@ -97,22 +112,33 @@
     return cell;
 }
 
-
-
-
-
 #pragma mark - <WSearchControllerDelegate>
 
 - (void)searchController:(SWSearchController *)searchController didFindCities:(NSArray *)cities {
     
     self.cities = cities;
     [self.tableView reloadData];
+    [self.activityIndicator stopAnimating];
 }
 
 #pragma marl - Private
 
 - (void)showAlertWithMessage:(NSString *)message {
-    NSLog(@"%@", message);
+    
+    [[[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+}
+
+#pragma mark - Actions
+
+- (IBAction)findLocationAction:(UIBarButtonItem *)sender {
+    
+    if (self.cities) {
+        self.cities = nil;
+        [self.tableView reloadData];
+    }
+    
+    [self.activityIndicator startAnimating];
+    [self.searchController findCityByCurrentLocation];
 }
 
 @end

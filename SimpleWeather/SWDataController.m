@@ -10,6 +10,7 @@
 #import "SWDataController.h"
 #import "SWLocalStoreManager.h"
 #import "SWCity.h"
+#import "SWWeather.h"
 #import "SWRequestManager.h"
 #import "SWJSONParser.h"
 
@@ -51,7 +52,6 @@
 - (NSArray *)getCities {
  
     return [self.localStoreManager fetchCities];
- 
 }
 
 - (SWCity *)getCurrentCity {
@@ -59,28 +59,10 @@
     SWCity *city = [self.localStoreManager fetchCurrentCity];
     
     if (city && [self shouldUpdateCity:city]) {
-
         [self getWeatherForCity:city];
     }
     
     return city;
-}
-
-- (void)getWeatherForCity:(SWCity *)city {
-
-    NSDictionary *params = @{@"cityID" : city.cityID};
-    
-    __weak SWDataController *weakSelf = self;
-    
-    [[[SWRequestManager alloc] init] getDataFromServerWithParams:params
-                                               completionHandler:^(BOOL success, NSData *data, NSError *error) {
-                                                   if (success) {
-                                                       [weakSelf parserTaskWithData:data];
-                                                   } else {
-                                                       NSLog(@"Request error %@", [error localizedDescription]);
-                                                   }
-                                               }];
-
 }
 
 - (void)handleParsedObject:(SWJSONParsedObject *)parsedObject {
@@ -93,6 +75,22 @@
 }
 
 #pragma mark - Private
+
+- (void)getWeatherForCity:(SWCity *)city {
+    
+    NSDictionary *params = @{@"cityID" : city.cityID};
+    
+    __weak SWDataController *weakSelf = self;
+    
+    [[[SWRequestManager alloc] init] getDataFromServerWithParams:params
+                                               completionHandler:^(BOOL success, NSData *data, NSError *error) {
+                                                   if (success) {
+                                                       [weakSelf parserTaskWithData:data];
+                                                   } else {
+                                                       NSLog(@"Request error %@", [error localizedDescription]);
+                                                   }
+                                               }];
+}
 
 - (void)parserTaskWithData:(NSData *)data {
     
@@ -109,7 +107,11 @@
 
 - (BOOL)shouldUpdateCity:(SWCity *)city {
     
-    return YES;
+    NSTimeInterval updateTime = [city.weather.updateTime integerValue];
+    
+    NSTimeInterval delta = [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSince1970:updateTime]];
+    
+    return (delta > UPDATE_INTERVAL_IN_SECONDS) ? YES : NO;
 }
 
 @end

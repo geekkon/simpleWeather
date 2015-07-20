@@ -11,13 +11,16 @@
 #import "SWCity.h"
 #import "SWWeather.h"
 
+CGFloat const animationDuration = 0.65;
+
 @interface SWViewController () <SWDataControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *cityLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tempLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
-@property (weak, nonatomic) IBOutlet UILabel *updateLabel;
+
+@property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @property (strong, nonatomic) SWCity *city;
 
@@ -30,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     [[SWDataController defaultController] setDelegate:self];
     
     NSArray *cities = [[SWDataController defaultController] getCities];
@@ -40,7 +43,7 @@
     
     if (city) {
         self.city = city;
-        [self updateUI];
+        [self updateUI:NO];
     } else {
         self.shouldShowSearchOnStart = YES;
     }
@@ -50,8 +53,8 @@
     [super viewDidAppear:animated];
     
     if (self.shouldShowSearchOnStart) {
-        self.shouldShowSearchOnStart = NO;
         [self performSegueWithIdentifier:@"showSearch" sender:nil];
+        self.shouldShowSearchOnStart = NO;
     }
 }
 
@@ -60,28 +63,41 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Getters
+
+- (NSDateFormatter *)dateFormatter {
+    
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    }
+    
+    return _dateFormatter;
+}
+
 #pragma mark - Private
 
-- (void)updateUI {
+- (void)updateUI:(BOOL)animated {
     
     self.cityLabel.text = self.city.name;
     
     SWWeather *weather = self.city.weather;
     
-    NSLog(@"%@", weather.temp);
-    
-    self.tempLabel.text = [NSString stringWithFormat:@"%.1f℃", roundf([weather.temp floatValue])];
+    self.tempLabel.text = [NSString stringWithFormat:@"%.0f℃", [weather.temp floatValue]];
     self.iconImageView.image = [UIImage imageNamed:weather.icon];
     self.infoLabel.text = weather.info;
-    self.updateLabel.text = [NSString stringWithFormat:@"%@", weather.updateTime];
     
-    //    [UIView animateWithDuration:3.0
-//                          delay:0.0
-//                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
-//                     animations:^{
-//                         self.iconImageView.transform = CGAffineTransformMakeScale(0.9, 0.9);
-//                     } completion:nil];
-//    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[weather.updateTime integerValue]];
+    
+    self.navigationItem.title = [NSString stringWithFormat:@"last update at %@", [self.dateFormatter stringFromDate:date]];
+    
+    if (animated) {
+        __weak SWViewController *weakSealf = self;
+        [UIView animateWithDuration:animationDuration animations:^{
+            weakSealf.view.alpha = 1.0;
+        }];
+    }
+
 //    NSLog(@"%@ %@, %@ [%@,%@] %@", self.city.cityID, self.city.name, self.city.country, self.city.lat, self.city.lon, self.weather.temp);
 }
 
@@ -91,7 +107,12 @@
     
     self.city = city;
     
-    [self updateUI];
+    __weak SWViewController *weakSealf = self;
+    [UIView animateWithDuration:animationDuration animations:^{
+        weakSealf.view.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [weakSealf updateUI:YES];
+    }];
 }
 
 @end

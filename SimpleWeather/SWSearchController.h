@@ -23,5 +23,6 @@
 @property (weak, nonatomic) id <SWSearchControllerDelegate> delegate;
 
 - (void)findCitiesByNameWithString:(NSString *)string;
+- (void)findCityByCurrentLocation;
 
 @end

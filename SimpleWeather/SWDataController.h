@@ -26,8 +26,6 @@
 
 - (SWCity *)getCurrentCity;
 
-- (void)getWeatherForCity:(SWCity *)city;
-
 - (void)handleParsedObject:(SWJSONParsedObject *)parsedObject;
 
 - (NSArray *)getCities;
