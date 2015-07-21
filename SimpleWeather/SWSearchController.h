@@ -15,6 +15,7 @@
 @optional
 
 - (void)searchController:(SWSearchController *)searchController didFindCities:(NSArray *)cities;
+- (void)searchController:(SWSearchController *)searchController didFailWithError:(NSError *)error;
 
 @end
 

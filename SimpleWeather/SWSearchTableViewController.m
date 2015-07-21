@@ -67,13 +67,8 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
     if (searchBar.text.length < 3) {
-        [self showAlertWithMessage:@"Please, type at least 3 letters"];
+        [self showAlertWithTitle:nil andMessage:@"Please, type at least 3 letters"];
         return;
-    }
-    
-    if (self.cities) {
-        self.cities = nil;
-        [self.tableView reloadData];
     }
     
     [self.activityIndicator startAnimating];
@@ -113,7 +108,7 @@
     return cell;
 }
 
-#pragma mark - <WSearchControllerDelegate>
+#pragma mark - <SWSearchControllerDelegate>
 
 - (void)searchController:(SWSearchController *)searchController didFindCities:(NSArray *)cities {
     
@@ -122,21 +117,27 @@
     [self.activityIndicator stopAnimating];
 }
 
+- (void)searchController:(SWSearchController *)searchController didFailWithError:(NSError *)error {
+    
+    self.cities = nil;
+    [self.activityIndicator stopAnimating];
+    [self showAlertWithTitle:@"Error" andMessage:[error localizedDescription]];
+}
+
 #pragma marl - Private
 
-- (void)showAlertWithMessage:(NSString *)message {
+- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
     
-    [[[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Actions
 
 - (IBAction)findLocationAction:(UIBarButtonItem *)sender {
-    
-    if (self.cities) {
-        self.cities = nil;
-        [self.tableView reloadData];
-    }
         
     [self.activityIndicator startAnimating];
     [self.searchController findCityByCurrentLocation];

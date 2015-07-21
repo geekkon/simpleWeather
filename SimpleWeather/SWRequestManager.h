@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const kCityID;
+extern NSString * const kCities;
+extern NSString * const kLocation;
+
 @interface SWRequestManager : NSObject
 
 - (void)getDataFromServerWithParams:(NSDictionary *)params completionHandler:(void (^)(BOOL success, NSData *data, NSError *error))completionHandler;

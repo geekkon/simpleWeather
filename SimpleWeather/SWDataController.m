@@ -80,7 +80,7 @@
 
 - (void)getWeatherForCity:(SWCity *)city {
         
-    NSDictionary *params = @{@"cityID" : city.cityID};
+    NSDictionary *params = @{kCityID : city.cityID};
     
     __weak SWDataController *weakSelf = self;
     
@@ -89,7 +89,9 @@
                                                    if (success) {
                                                        [weakSelf parserTaskWithData:data];
                                                    } else {
-                                                       NSLog(@"Request error %@", [error localizedDescription]);
+                                                       if ([weakSelf.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
+                                                           [weakSelf.delegate dataController:weakSelf didFailWithError:error];
+                                                       }
                                                    }
                                                }];
 }
@@ -102,7 +104,9 @@
         if (success) {
             [weakSelf handleParsedObject:[parsedObjects firstObject]];
         } else {
-            NSLog(@"Parsing error %@", [error localizedDescription]);
+            if ([weakSelf.delegate respondsToSelector:@selector(dataController:didFailWithError:)]) {
+                [weakSelf.delegate dataController:weakSelf didFailWithError:error];
+            }
         }
     }];
 }

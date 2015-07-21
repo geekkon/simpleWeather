@@ -37,7 +37,7 @@
     if (!_locationManager) {
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest; // kCLLocationAccuracyThreeKilometers;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         [_locationManager requestWhenInUseAuthorization];
     }
     
@@ -62,7 +62,6 @@
         if (self.handler) {
             self.handler(YES, location, nil);
         }
-        
     }
 }
 

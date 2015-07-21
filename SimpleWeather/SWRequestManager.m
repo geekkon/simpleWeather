@@ -8,6 +8,10 @@
 
 #import "SWRequestManager.h"
 
+NSString * const kCityID = @"cityID";
+NSString * const kCities = @"cities";
+NSString * const kLocation = @"location";
+
 NSString * const templateForRequest = @"http://api.openweathermap.org/data/2.5/%@&units=metric";
 
 @implementation SWRequestManager
@@ -39,17 +43,17 @@ NSString * const templateForRequest = @"http://api.openweathermap.org/data/2.5/%
     
     NSString *formatString = nil;
     
-    if (params[@"cityID"]) {
+    if (params[kCityID]) {
         
-        formatString = [NSString stringWithFormat:@"weather?id=%@", params[@"cityID"]];
+        formatString = [NSString stringWithFormat:@"weather?id=%@", params[kCityID]];
         
-    } else if (params[@"cities"]) {
+    } else if (params[kCities]) {
         
-        formatString = [NSString stringWithFormat:@"find?q=%@&type=like", [self prepareStringForRequest:params[@"cities"]]];
+        formatString = [NSString stringWithFormat:@"find?q=%@&type=like", [self prepareStringForRequest:params[kCities]]];
         
-    } else if (params[@"location"]) {
+    } else if (params[kLocation]) {
         
-        NSDictionary *location = params[@"location"];
+        NSDictionary *location = params[kLocation];
         
         formatString = [NSString stringWithFormat:@"weather?lat=%@&lon=%@", location[@"lat"], location[@"lon"]];
     }

@@ -15,6 +15,7 @@
 @optional
 
 - (void)dataController:(SWDataController *)dataController didFetchWeatherForCity:(SWCity *)city;
+- (void)dataController:(SWDataController *)dataController didFailWithError:(NSError *)error;
 
 @end
 

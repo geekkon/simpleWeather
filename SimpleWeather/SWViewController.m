@@ -105,6 +105,15 @@ CGFloat const animationDuration = 0.65;
     }
 }
 
+- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - <SWDataManagerDelegate>
 
 - (void)dataController:(SWDataController *)dataController didFetchWeatherForCity:(SWCity *)city {
@@ -118,6 +127,11 @@ CGFloat const animationDuration = 0.65;
     } completion:^(BOOL finished) {
         [weakSealf updateUI:YES];
     }];
+}
+
+- (void)dataController:(SWDataController *)dataController didFailWithError:(NSError *)error {
+    
+    [self showAlertWithTitle:@"Error" andMessage:[error localizedDescription]];
 }
 
 @end

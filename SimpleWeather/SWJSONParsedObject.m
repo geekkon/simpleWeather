@@ -20,10 +20,15 @@
     parsedObject.lon = JSON[@"coord"][@"lon"];
     parsedObject.lat = JSON[@"coord"][@"lat"];
     
-    parsedObject.conditionID = JSON[@"weather"][0][@"id"];
-    parsedObject.icon = JSON[@"weather"][0][@"icon"];
-    parsedObject.info = JSON[@"weather"][0][@"description"];
-    parsedObject.main = JSON[@"weather"][0][@"main"];
+    NSArray *weather = JSON[@"weather"];
+    
+    if ([weather firstObject]) {
+        parsedObject.conditionID = [weather firstObject][@"id"];
+        parsedObject.icon = [weather firstObject][@"icon"];
+        parsedObject.info = [weather firstObject][@"description"];
+        parsedObject.main = [weather firstObject][@"main"];
+    }
+    
     parsedObject.temp = JSON[@"main"][@"temp"];
     parsedObject.updateTime = JSON[@"dt"];
     

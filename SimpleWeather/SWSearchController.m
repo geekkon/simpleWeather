@@ -21,7 +21,7 @@
 
 - (void)findCitiesByNameWithString:(NSString *)string {
     
-    NSDictionary *params = @{@"cities" : string};
+    NSDictionary *params = @{kCities : string};
     
     [self findCitiesWithParams:params];
 }
@@ -33,10 +33,12 @@
     [self.locationManager getCurrentLocationUsingHandler:^(BOOL success, NSDictionary *location, NSError *error) {
         
         if (success) {
-            NSDictionary *params = @{@"location" : location};
+            NSDictionary *params = @{kLocation : location};
             [weakSelf findCitiesWithParams:params];
         } else {
-            NSLog(@"Location error %@", [error localizedDescription]);
+            if ([weakSelf.delegate respondsToSelector:@selector(searchController:didFailWithError:)]) {
+                [weakSelf.delegate searchController:weakSelf didFailWithError:error];
+            }
         }
     }];
 }
@@ -63,7 +65,9 @@
         if (success) {
             [weakSelf parseCitiesWithData:data];
         } else {
-            NSLog(@"Request error %@", [error localizedDescription]);
+            if ([weakSelf.delegate respondsToSelector:@selector(searchController:didFailWithError:)]) {
+                [weakSelf.delegate searchController:weakSelf didFailWithError:error];
+            }
         }
     }];
 }
@@ -79,7 +83,9 @@
                 [weakSelf.delegate searchController:weakSelf didFindCities:parsedObjects];
             }
         } else {
-            NSLog(@"Parsing error %@", [error localizedDescription]);
+            if ([weakSelf.delegate respondsToSelector:@selector(searchController:didFailWithError:)]) {
+                [weakSelf.delegate searchController:weakSelf didFailWithError:error];
+            }
         }
     }];
 }
