@@ -51,7 +51,7 @@ NSString * const templateForRequest = @"http://api.openweathermap.org/data/2.5/%
         
         NSDictionary *location = params[@"location"];
         
-        formatString = [NSString stringWithFormat:@"weather?lat=%@&lon=%@", location[@"lat"], location[@"lon"]];        
+        formatString = [NSString stringWithFormat:@"weather?lat=%@&lon=%@", location[@"lat"], location[@"lon"]];
     }
     
     NSString *stringURL = [NSString stringWithFormat:templateForRequest, formatString];

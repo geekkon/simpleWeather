@@ -14,8 +14,6 @@
 
 - (SWCity *)fetchCurrentCity;
 
-- (NSArray *)fetchCities;
-
 - (SWCity *)updateWithParsedObject:(SWJSONParsedObject *)parsedObject;
 
 @end

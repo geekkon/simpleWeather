@@ -12,6 +12,7 @@
 @implementation SWJSONParser
 
 + (dispatch_queue_t)queue {
+    
    return dispatch_queue_create("simple.weather.parser.queue", DISPATCH_QUEUE_SERIAL);
 }
 

@@ -43,24 +43,6 @@
     return [resultArray firstObject];
 }
 
-- (NSArray *)fetchCities {
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    fetchRequest.entity = [NSEntityDescription entityForName:@"SWCity"
-                                      inManagedObjectContext:self.managedObjectContext];
-    NSError *requestError = nil;
-    
-    NSArray *resultArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:&requestError];
-    
-    if (requestError) {
-        NSLog(@"%@", [requestError localizedDescription]);
-        return nil;
-    }
-    
-    return resultArray;
-}
-
 - (SWCity *)updateWithParsedObject:(SWJSONParsedObject *)parsedObject {
     
     SWCity *city = [self fetchCurrentCity];

@@ -47,6 +47,7 @@
         _activityIndicator.color = [UIColor darkGrayColor];
         _activityIndicator.hidesWhenStopped = YES;
         _activityIndicator.frame = self.tableView.bounds;
+        _activityIndicator.backgroundColor = [UIColor whiteColor];
         [self.tableView addSubview:_activityIndicator];
     }
     
@@ -136,7 +137,7 @@
         self.cities = nil;
         [self.tableView reloadData];
     }
-    
+        
     [self.activityIndicator startAnimating];
     [self.searchController findCityByCurrentLocation];
 }

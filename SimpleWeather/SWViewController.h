@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SWViewController : UIViewController 
+@interface SWViewController : UIViewController
+
+- (void)fetchWeaterForCurrentCity;
 
 @end

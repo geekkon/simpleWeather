@@ -35,9 +35,6 @@ CGFloat const animationDuration = 0.65;
     // Do any additional setup after loading the view.
 
     [[SWDataController defaultController] setDelegate:self];
-    
-    NSArray *cities = [[SWDataController defaultController] getCities];
-    NSLog(@"CITIES %@", cities);
  
     SWCity *city = [[SWDataController defaultController] getCurrentCity];
     
@@ -61,6 +58,13 @@ CGFloat const animationDuration = 0.65;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Public 
+
+- (void)fetchWeaterForCurrentCity {
+    
+    [[SWDataController defaultController] fetchWeatherForCity:self.city];
 }
 
 #pragma mark - Getters
@@ -92,13 +96,13 @@ CGFloat const animationDuration = 0.65;
     self.navigationItem.title = [NSString stringWithFormat:@"last update at %@", [self.dateFormatter stringFromDate:date]];
     
     if (animated) {
+        
         __weak SWViewController *weakSealf = self;
+        
         [UIView animateWithDuration:animationDuration animations:^{
             weakSealf.view.alpha = 1.0;
         }];
     }
-
-//    NSLog(@"%@ %@, %@ [%@,%@] %@", self.city.cityID, self.city.name, self.city.country, self.city.lat, self.city.lon, self.weather.temp);
 }
 
 #pragma mark - <SWDataManagerDelegate>
@@ -108,6 +112,7 @@ CGFloat const animationDuration = 0.65;
     self.city = city;
     
     __weak SWViewController *weakSealf = self;
+    
     [UIView animateWithDuration:animationDuration animations:^{
         weakSealf.view.alpha = 0.0;
     } completion:^(BOOL finished) {

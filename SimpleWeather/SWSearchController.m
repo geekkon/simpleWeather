@@ -6,15 +6,14 @@
 //  Copyright (c) 2015 Dmitriy Baklanov. All rights reserved.
 //
 
-@import CoreLocation;
-
 #import "SWSearchController.h"
+#import "SWLocationManager.h"
 #import "SWRequestManager.h"
 #import "SWJSONParser.h"
 
-@interface SWSearchController () <CLLocationManagerDelegate>
+@interface SWSearchController ()
 
-@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) SWLocationManager *locationManager;
 
 @end
 
@@ -28,19 +27,26 @@
 }
 
 - (void)findCityByCurrentLocation {
-    
-    [self.locationManager startUpdatingLocation];
+   
+    __weak SWSearchController *weakSelf = self;
+        
+    [self.locationManager getCurrentLocationUsingHandler:^(BOOL success, NSDictionary *location, NSError *error) {
+        
+        if (success) {
+            NSDictionary *params = @{@"location" : location};
+            [weakSelf findCitiesWithParams:params];
+        } else {
+            NSLog(@"Location error %@", [error localizedDescription]);
+        }
+    }];
 }
 
 #pragma mark - Getters
 
-- (CLLocationManager *)locationManager {
+- (SWLocationManager *)locationManager {
     
     if (!_locationManager) {
-        _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.delegate = self;
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest; // kCLLocationAccuracyThreeKilometers;
-        [_locationManager requestWhenInUseAuthorization];
+        _locationManager = [[SWLocationManager alloc] init];
     }
     
     return _locationManager;
@@ -52,14 +58,14 @@
     
     __weak SWSearchController *weakSelf = self;
     
-    [[[SWRequestManager alloc] init] getDataFromServerWithParams:params
-                                               completionHandler:^(BOOL success, NSData *data, NSError *error) {
-                                                   if (success) {
-                                                       [weakSelf parseCitiesWithData:data];
-                                                   } else {
-                                                       NSLog(@"Request error %@", [error localizedDescription]);
-                                                   }
-                                               }];
+    [[[SWRequestManager alloc] init] getDataFromServerWithParams:params completionHandler:^(BOOL success, NSData *data, NSError *error) {
+        
+        if (success) {
+            [weakSelf parseCitiesWithData:data];
+        } else {
+            NSLog(@"Request error %@", [error localizedDescription]);
+        }
+    }];
 }
 
 - (void)parseCitiesWithData:(NSData *)data {
@@ -67,6 +73,7 @@
     __weak SWSearchController *weakSelf = self;
     
     [[[SWJSONParser alloc] init] parseData:data completionHandler:^(BOOL success, NSArray *parsedObjects, NSError *error) {
+        
         if (success) {
             if ([weakSelf.delegate respondsToSelector:@selector(searchController:didFindCities:)]) {
                 [weakSelf.delegate searchController:weakSelf didFindCities:parsedObjects];
@@ -75,34 +82,6 @@
             NSLog(@"Parsing error %@", [error localizedDescription]);
         }
     }];
-}
-
-
-
-#pragma mark - <CLLocationManagerDelegate>
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    
-    CLLocation *currentLocation = [locations lastObject];
-    
-    if (currentLocation.horizontalAccuracy > 0) {
-        
-        [self.locationManager stopUpdatingLocation];
-
-        CLLocationCoordinate2D coordinate = currentLocation.coordinate;
-        
-        NSDictionary *location = @{@"lat" : @(coordinate.latitude),
-                                   @"lon" : @(coordinate.longitude)};
-        
-        NSDictionary *params = @{@"location" : location};
-        
-        [self findCitiesWithParams:params];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
- 
-    NSLog(@"%@", [error localizedDescription]);
 }
 
 @end

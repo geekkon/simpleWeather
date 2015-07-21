@@ -49,11 +49,6 @@
 
 #pragma mark - Public
 
-- (NSArray *)getCities {
- 
-    return [self.localStoreManager fetchCities];
-}
-
 - (SWCity *)getCurrentCity {
     
     SWCity *city = [self.localStoreManager fetchCurrentCity];
@@ -63,6 +58,13 @@
     }
     
     return city;
+}
+
+- (void)fetchWeatherForCity:(SWCity *)city {
+    
+    if (city && [self shouldUpdateCity:city]) {
+        [self getWeatherForCity:city];
+    }
 }
 
 - (void)handleParsedObject:(SWJSONParsedObject *)parsedObject {
@@ -77,7 +79,7 @@
 #pragma mark - Private
 
 - (void)getWeatherForCity:(SWCity *)city {
-    
+        
     NSDictionary *params = @{@"cityID" : city.cityID};
     
     __weak SWDataController *weakSelf = self;

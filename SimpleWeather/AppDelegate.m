@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SWViewController.h"
 
 @interface AppDelegate ()
 
@@ -39,6 +40,13 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+    
+    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+    
+    SWViewController *viewController = (SWViewController *)navigationController.topViewController;
+    
+    [viewController fetchWeaterForCurrentCity];
+    
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
